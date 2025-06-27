@@ -14,13 +14,11 @@ class Queue extends Command
     {
         if (config('constants.horizon.is_queue_enabled')) {
             $this->call('queue:work', [
-                '--connection' => 'redis',
+                'redis',
                 '--queue' => 'high,default',
                 '--max-jobs' => 500,
-                '--memory' => 128,
-                '--tries' => 1,
-                '--timeout' => 3560,
-                '--verbose' => true,
+                '--max-time' => 3560,
+                '-v',
             ]);
             exit(0);
         } else {
