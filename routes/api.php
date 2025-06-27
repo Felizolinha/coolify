@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\ApplicationsController;
 use App\Http\Controllers\Api\DatabasesController;
 use App\Http\Controllers\Api\DeployController;
 use App\Http\Controllers\Api\OtherController;
+use App\Http\Controllers\Api\Performance\Test;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\ResourcesController;
 use App\Http\Controllers\Api\SecurityController;
@@ -14,6 +15,8 @@ use App\Http\Middleware\ApiAllowed;
 use App\Jobs\PushServerUpdateJob;
 use App\Models\Server;
 use Illuminate\Support\Facades\Route;
+
+Route::post('/performance', [Test::class, 'dispatch']);
 
 Route::get('/health', [OtherController::class, 'healthcheck']);
 Route::group([
