@@ -71,7 +71,7 @@ RUN apk add --no-cache gnupg && \
     mkdir -p /usr/share/keyrings && \
     curl -fSsL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor > /usr/share/keyrings/postgresql.gpg
 
-# Install system dependencies
+# Install system dependencies including Supervisor
 RUN apk add --no-cache \
     postgresql${POSTGRES_VERSION}-client \
     openssh-client \
@@ -79,7 +79,14 @@ RUN apk add --no-cache \
     git-lfs \
     jq \
     lsof \
-    vim
+    vim \
+    supervisor
+
+# Create Supervisor directories
+RUN mkdir -p /etc/supervisor/conf.d \
+    /var/log/supervisor \
+    /var/run/supervisor && \
+    chown -R www-data:www-data /var/log/supervisor /var/run/supervisor
 
 # Configure shell aliases
 RUN echo "alias ll='ls -al'" >> /etc/profile && \
@@ -135,6 +142,9 @@ RUN mkdir -p /etc/nginx/conf.d && \
 # Install MinIO client
 COPY --from=minio-client /usr/bin/mc /usr/bin/mc
 RUN chmod +x /usr/bin/mc
+
+# Create Supervisor configuration for Laravel queue workers
+COPY --chown=www-data:www-data docker/production/supervisor/ /etc/supervisor/
 
 # Switch to non-root user
 USER www-data
