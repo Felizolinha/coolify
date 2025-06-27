@@ -125,7 +125,7 @@ RUN composer dump-autoload
 
 RUN mkdir -p /var/s6/logs/ && \
     chown nobody:nogroup /var/s6/logs/ && \
-    chmod 755 /var/s6/logs/
+    chmod 02755 /var/s6/logs/
 
 # Configure Nginx and S6 overlay
 COPY docker/production/etc/nginx/conf.d/custom.conf /etc/nginx/conf.d/custom.conf
