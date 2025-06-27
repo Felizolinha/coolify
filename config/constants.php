@@ -47,7 +47,7 @@ return [
 
     'horizon' => [
         'is_queue_enabled' => env('QUEUE_ENABLED', false),
-        'is_scheduler_enabled' => env('SCHEDULER_ENABLED', true),
+        'is_scheduler_enabled' => env('SCHEDULER_ENABLED', false),
     ],
 
     'docker' => [
