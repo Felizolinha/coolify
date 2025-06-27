@@ -4,8 +4,5 @@
 with-contenv
 cd /var/www/html
 foreground {
-    php
-    artisan
-    start:horizon
+  exec s6-setuidgid www-data supervisord -c /etc/supervisor/supervisord.conf
 }
-
