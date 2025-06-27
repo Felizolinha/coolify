@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 
@@ -37,6 +38,12 @@ class TestJob implements ShouldQueue
         // Mixed Operations
         $this->performMixedOperations($testDir, $jobId);
 
+        DB::table('successful_jobs')->insert([
+            'connection' => $this->job->getConnectionName(),
+            'queue' => $this->job->getQueue(),
+            'payload' => $this->job->getRawBody(),
+            'processed_at' => now(),
+        ]);
     }
 
     private function generateTestData(): array
