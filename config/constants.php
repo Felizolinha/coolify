@@ -46,7 +46,7 @@ return [
     ],
 
     'horizon' => [
-        'is_horizon_enabled' => env('HORIZON_ENABLED', true),
+        'is_queue_enabled' => env('QUEUE_ENABLED', false),
         'is_scheduler_enabled' => env('SCHEDULER_ENABLED', true),
     ],
 
