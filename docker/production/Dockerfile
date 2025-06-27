@@ -79,8 +79,9 @@ RUN apk add --no-cache \
     git-lfs \
     jq \
     lsof \
-    vim
-    
+    vim \
+    supervisor
+
 # Create Supervisor directories
 RUN mkdir -p /etc/supervisor/conf.d \
     /var/log/supervisor \
