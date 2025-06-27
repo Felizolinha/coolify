@@ -1,3 +1,4 @@
+
 if { mkdir -p /data/coolify/s6/logs }
-if { chown nobody:nogroup /data/coolify/s6/logs }
+if { chown -R nobody:nogroup /data/coolify/s6/logs }
 chmod 02755 /data/coolify/s6/logs
