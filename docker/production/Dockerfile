@@ -141,4 +141,4 @@ COPY --from=minio-client /usr/bin/mc /usr/bin/mc
 RUN chmod +x /usr/bin/mc
 
 # Switch to non-root user
-# USER www-data
+USER www-data
