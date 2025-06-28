@@ -79,6 +79,7 @@ RUN apk add --no-cache \
     git-lfs \
     jq \
     lsof \
+    psmisc \
     vim
 
 # Configure shell aliases
