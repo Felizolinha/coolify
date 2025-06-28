@@ -122,6 +122,9 @@ COPY --chown=www-data:www-data resources/views ./resources/views
 COPY --chown=www-data:www-data artisan artisan
 COPY --chown=www-data:www-data openapi.yaml ./openapi.yaml
 
+# Copy queue name test
+COPY docker/production/test/WorkCommand.php /vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php
+
 RUN composer dump-autoload
 
 RUN mkdir -p /var/s6/logs/ && \
