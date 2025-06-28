@@ -4,9 +4,9 @@ namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 
-class Queue extends Command
+class Queue2 extends Command
 {
-    protected $signature = 'start:queue';
+    protected $signature = 'start:queue2';
 
     protected $description = 'Start 1 Queue Worker';
 
@@ -23,8 +23,8 @@ class Queue extends Command
                 '--memory' => 128,
                 '--sleep' => 5,
                 '--timeout' => 60,
-                '--name' => 'worker',
-                '-v',
+                '--name' => 'worker-2',
+                '--verbose',
             ]);
             exit(0);
         } else {
