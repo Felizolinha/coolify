@@ -124,7 +124,7 @@ COPY --chown=www-data:www-data openapi.yaml ./openapi.yaml
 RUN composer dump-autoload
 
 RUN mkdir -p /var/s6/logs/ && \
-    chown nobody:www-data /var/s6/logs/ && \
+    chown nobody:nogroup /var/s6/logs/ && \
     chmod 02755 /var/s6/logs/
 
 # Configure Nginx and S6 overlay
@@ -141,4 +141,4 @@ COPY --from=minio-client /usr/bin/mc /usr/bin/mc
 RUN chmod +x /usr/bin/mc
 
 # Switch to non-root user
-USER www-data
+# USER www-data
