@@ -6,6 +6,5 @@ cd /var/www/html
 foreground {
     php
     artisan
-    start:queue
+    start:queue1
 }
-
