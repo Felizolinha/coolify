@@ -54,7 +54,7 @@ class Init extends Command
         } else {
             $this->cleanup_in_progress_application_deployments();
         }
-        $this->call('cleanup:redis');
+        // $this->call('cleanup:redis');
 
         $this->call('cleanup:stucked-resources');
 
