@@ -6,5 +6,14 @@ cd /var/www/html
 foreground {
     php
     artisan
-    start:queue1
+    queue:work
+    --tries=1
+    --backoff=30
+    --max-jobs=500
+    --max-time=3560
+    --memory=128
+    --sleep=5
+    --timeout=60
+    --name='worker-1'
+    --verbose
 }
