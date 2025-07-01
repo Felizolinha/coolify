@@ -56,7 +56,7 @@ class Kernel extends ConsoleKernel
 
         if (isDev()) {
             // Instance Jobs
-            $this->scheduleInstance->command('horizon:snapshot')->everyMinute();
+            // $this->scheduleInstance->command('horizon:snapshot')->everyMinute();
             $this->scheduleInstance->job(new CleanupInstanceStuffsJob)->everyMinute()->onOneServer();
             $this->scheduleInstance->job(new CheckHelperImageJob)->everyTenMinutes()->onOneServer();
 
@@ -70,7 +70,7 @@ class Kernel extends ConsoleKernel
 
         } else {
             // Instance Jobs
-            $this->scheduleInstance->command('horizon:snapshot')->everyFiveMinutes();
+            // $this->scheduleInstance->command('horizon:snapshot')->everyFiveMinutes();
             $this->scheduleInstance->command('cleanup:unreachable-servers')->daily()->onOneServer();
 
             $this->scheduleInstance->job(new PullTemplatesFromCDN)->cron($this->updateCheckFrequency)->timezone($this->instanceTimezone)->onOneServer();
