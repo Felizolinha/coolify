@@ -38,12 +38,12 @@ class TestJob implements ShouldQueue
         // Mixed Operations
         $this->performMixedOperations($testDir, $jobId);
 
-        DB::table('successful_jobs')->insert([
-            'connection' => $this->job->getConnectionName(),
-            'queue' => $this->job->getQueue(),
-            'payload' => $this->job->getRawBody(),
-            'processed_at' => now(),
-        ]);
+        // DB::table('successful_jobs')->insert([
+        //     'connection' => $this->job->getConnectionName(),
+        //     'queue' => $this->job->getQueue(),
+        //     'payload' => $this->job->getRawBody(),
+        //     'processed_at' => now(),
+        // ]);
     }
 
     private function generateTestData(): array
