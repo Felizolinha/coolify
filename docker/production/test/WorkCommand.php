@@ -170,6 +170,16 @@ class WorkCommand extends Command
     }
 
     /**
+     * Get the queue worker name.
+     *
+     * @return string
+     */
+    protected function getWorkerName()
+    {
+        return $this->option('name');
+    }
+
+    /**
      * Listen for the queue events in order to update the console output.
      *
      * @return void
@@ -222,24 +232,28 @@ class WorkCommand extends Command
      */
     protected function writeOutputForCli(Job $job, $status)
     {
-        $workerName = $this->option('name');
+        $isVerbose = $this->output->isVerbose();
 
-        $this->output->write(sprintf(
-            '  <fg=gray>%s</> [%s] %s%s',
+        $this->output->write(rtrim(sprintf(
+            '  <fg=gray>%s</> %s %s',
             $this->now()->format('Y-m-d H:i:s'),
-            $workerName,
             $job->resolveName(),
-            $this->output->isVerbose()
-                ? sprintf(' <fg=gray>%s</>', $job->getJobId())
+            $isVerbose
+                ? sprintf('<fg=gray>%s</>  <fg=magenta>%s</> <fg=blue>%s</> <fg=blue>%s</>',
+                    $job->getJobId(),
+                    $this->getWorkerName(),
+                    $job->getConnectionName(),
+                    $job->getQueue()
+                )
                 : ''
-        ));
+        )));
 
         if ($status == 'starting') {
             $this->latestStartedAt = microtime(true);
 
-            $dots = max(terminal()->width() - mb_strlen($job->resolveName()) - mb_strlen($workerName) - (
-                $this->output->isVerbose() ? (mb_strlen($job->getJobId()) + 1) : 0
-            ) - 36, 0);
+            $dots = max(terminal()->width() - mb_strlen($job->resolveName()) - (
+                $isVerbose ? mb_strlen($job->getJobId()) + mb_strlen($this->getWorkerName()) + mb_strlen($job->getConnectionName()) + mb_strlen($job->getQueue()) + 2 : 0
+            ) - 35, 0);
 
             $this->output->write(' '.str_repeat('<fg=gray>.</>', $dots));
 
@@ -248,9 +262,9 @@ class WorkCommand extends Command
 
         $runTime = $this->runTimeForHumans($this->latestStartedAt);
 
-        $dots = max(terminal()->width() - mb_strlen($job->resolveName()) - mb_strlen($workerName) - (
-            $this->output->isVerbose() ? (mb_strlen($job->getJobId()) + 1) : 0
-        ) - mb_strlen($runTime) - 34, 0);
+        $dots = max(terminal()->width() - mb_strlen($job->resolveName()) - (
+            $isVerbose ? mb_strlen($job->getJobId()) + mb_strlen($this->getWorkerName()) + mb_strlen($job->getConnectionName()) + mb_strlen($job->getQueue()) + 2 : 0
+        ) - mb_strlen($runTime) - 33, 0);
 
         $this->output->write(' '.str_repeat('<fg=gray>.</>', $dots));
         $this->output->write(" <fg=gray>$runTime</>");
@@ -274,6 +288,7 @@ class WorkCommand extends Command
             'level' => $status === 'starting' || $status === 'success' ? 'info' : 'warning',
             'id' => $job->getJobId(),
             'uuid' => $job->uuid(),
+            'worker' => $this->getWorkerName(),
             'connection' => $job->getConnectionName(),
             'queue' => $job->getQueue(),
             'job' => $job->resolveName(),
