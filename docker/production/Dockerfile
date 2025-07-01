@@ -123,7 +123,7 @@ COPY --chown=www-data:www-data artisan artisan
 COPY --chown=www-data:www-data openapi.yaml ./openapi.yaml
 
 # Copy queue name test
-COPY docker/production/test/WorkCommand.php /vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php
+COPY docker/production/test/WorkCommand.php vendor/laravel/framework/src/Illuminate/Queue/Console/WorkCommand.php
 
 RUN composer dump-autoload
 
