@@ -183,7 +183,18 @@ return [
         's6' => [
             'connection' => 'redis',
             'queue' => ['high', 'default'],
-            'balance' => env('HORIZON_BALANCE', 'auto'),
+            'balance' => env('HORIZON_BALANCE', 'false'),
+            'maxTime' => 0,
+            'maxJobs' => 500,
+            'memory' => 128,
+            'tries' => 1,
+            'timeout' => 3560,
+            'nice' => 0,
+        ],
+        'deployments' => [
+            'connection' => 'redis',
+            'queue' => ['production', 'standard'],
+            'balance' => env('HORIZON_BALANCE', 'false'),
             'maxTime' => 0,
             'maxJobs' => 500,
             'memory' => 128,
@@ -197,8 +208,15 @@ return [
         'production' => [
             's6' => [
                 'autoScalingStrategy' => 'size',
-                'minProcesses' => env('HORIZON_MIN_PROCESSES', 2),
-                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 8),
+                'minProcesses' => env('HORIZON_MIN_PROCESSES', 1),
+                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 4),
+                'balanceMaxShift' => env('HORIZON_BALANCE_MAX_SHIFT', 1),
+                'balanceCooldown' => env('HORIZON_BALANCE_COOLDOWN', 1),
+            ],
+            'deployments' => [
+                'autoScalingStrategy' => 'size',
+                'minProcesses' => env('HORIZON_MIN_PROCESSES', 1),
+                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 2),
                 'balanceMaxShift' => env('HORIZON_BALANCE_MAX_SHIFT', 1),
                 'balanceCooldown' => env('HORIZON_BALANCE_COOLDOWN', 1),
             ],
@@ -207,8 +225,15 @@ return [
         'local' => [
             's6' => [
                 'autoScalingStrategy' => 'size',
-                'minProcesses' => env('HORIZON_MIN_PROCESSES', 2),
-                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 8),
+                'minProcesses' => env('HORIZON_MIN_PROCESSES', 1),
+                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 4),
+                'balanceMaxShift' => env('HORIZON_BALANCE_MAX_SHIFT', 1),
+                'balanceCooldown' => env('HORIZON_BALANCE_COOLDOWN', 1),
+            ],
+            'deployments' => [
+                'autoScalingStrategy' => 'size',
+                'minProcesses' => env('HORIZON_MIN_PROCESSES', 1),
+                'maxProcesses' => env('HORIZON_MAX_PROCESSES', 2),
                 'balanceMaxShift' => env('HORIZON_BALANCE_MAX_SHIFT', 1),
                 'balanceCooldown' => env('HORIZON_BALANCE_COOLDOWN', 1),
             ],
