@@ -1,0 +1,17 @@
+#!/command/execlineb -P
+
+# Use with-contenv to ensure environment variables are available
+with-contenv
+cd /var/www/html
+php
+artisan
+queue:work
+--tries=1
+--backoff=30
+--max-jobs=500
+--max-time=3560
+--memory=128
+--sleep=5
+--timeout=60
+--name="worker-7"
+--verbose
